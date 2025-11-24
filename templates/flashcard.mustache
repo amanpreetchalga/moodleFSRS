@@ -1,0 +1,18 @@
+<div class="fsrs-container" data-flashcard-id="{{id}}" data-review-url="{{reviewurl}}" data-sesskey="{{sesskey}}">
+    <div class="fsrs-card">
+        <div class="fsrs-card-front">
+            <div class="fsrs-card-topic">{{topic}}</div>
+            <div class="fsrs-card-content">{{{front}}}</div>
+            <button class="btn btn-primary fsrs-show-answer">{{showanswerlabel}}</button>
+        </div>
+        <div class="fsrs-card-back hidden">
+            <div class="fsrs-card-content">{{{back}}}</div>
+            <div class="fsrs-review-buttons">
+                {{#buttons}}
+                    <button class="btn btn-secondary" data-rate="{{rate}}">{{label}}</button>
+                {{/buttons}}
+            </div>
+        </div>
+    </div>
+    <div class="fsrs-overlay hidden" data-template="{{overlaytemplate}}">{{overlaytemplate}}</div>
+</div>
