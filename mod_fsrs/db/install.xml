@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/fsrs/db" VERSION="2025010100" COMMENT="FSRS plugin schema">
+    <TABLES>
+        <TABLE NAME="fsrs" COMMENT="FSRS root table">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
+                <FIELD NAME="intro" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="introformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="desiredretention" TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="true" DEFAULT="0.90"/>
+                <FIELD NAME="newperday" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="20"/>
+                <FIELD NAME="reviewcap" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="200"/>
+                <FIELD NAME="timezone" TYPE="char" LENGTH="255" NOTNULL="false"/>
+                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="false"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
+            </INDEXES>
+        </TABLE>
+        <TABLE NAME="fsrs_topic" COMMENT="FSRS topic table">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="fsrsid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
+                <FIELD NAME="description" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="false"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="fsrsid_fk" TYPE="foreign" FIELDS="fsrsid" REFTABLE="fsrs" REFFIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="fsrsid" UNIQUE="false" FIELDS="fsrsid"/>
+            </INDEXES>
+        </TABLE>
+        <TABLE NAME="fsrs_flashcard" COMMENT="FSRS flashcard table">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="fsrsid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="topicid" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="front" TYPE="text" NOTNULL="true"/>
+                <FIELD NAME="back" TYPE="text" NOTNULL="true"/>
+                <FIELD NAME="optionsjson" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="questiontype" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="availablefrom" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="availableuntil" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="isunlocked" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="tags" TYPE="text" NOTNULL="false"/>
+                <FIELD NAME="createdby" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="false"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="fsrsid_fk" TYPE="foreign" FIELDS="fsrsid" REFTABLE="fsrs" REFFIELDS="id"/>
+                <KEY NAME="topicid_fk" TYPE="foreign" FIELDS="topicid" REFTABLE="fsrs_topic" REFFIELDS="id"/>
+                <KEY NAME="createdby_fk" TYPE="foreign" FIELDS="createdby" REFTABLE="user" REFFIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="fsrsid" UNIQUE="false" FIELDS="fsrsid"/>
+                <INDEX NAME="topicid" UNIQUE="false" FIELDS="topicid"/>
+            </INDEXES>
+        </TABLE>
+        <TABLE NAME="fsrs_user_card" COMMENT="FSRS user card table">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="flashcardid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="state" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="is_starred" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="is_suspended" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="stability" TYPE="number" LENGTH="10" DECIMALS="4" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="difficulty" TYPE="number" LENGTH="10" DECIMALS="4" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="due_at" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="interval_days" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="reps" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="lapses" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="last_rating" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="last_reviewed_at" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="correct_count" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="wrong_count" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="false"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="userid_fk" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+                <KEY NAME="flashcardid_fk" TYPE="foreign" FIELDS="flashcardid" REFTABLE="fsrs_flashcard" REFFIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="userid_flashcardid_uix" UNIQUE="true" FIELDS="userid,flashcardid"/>
+            </INDEXES>
+        </TABLE>
+        <TABLE NAME="fsrs_review_log" COMMENT="FSRS review log table">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="flashcardid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="usercardid" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="rating" TYPE="int" LENGTH="10" NOTNULL="true"/>
+                <FIELD NAME="was_correct" TYPE="int" LENGTH="2" NOTNULL="true"/>
+                <FIELD NAME="response_ms" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="stability_before" TYPE="number" LENGTH="10" DECIMALS="4" NOTNULL="false"/>
+                <FIELD NAME="stability_after" TYPE="number" LENGTH="10" DECIMALS="4" NOTNULL="false"/>
+                <FIELD NAME="interval_before" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="interval_after" TYPE="int" LENGTH="10" NOTNULL="false"/>
+                <FIELD NAME="reviewed_at" TYPE="int" LENGTH="10" NOTNULL="true"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="userid_fk" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+                <KEY NAME="flashcardid_fk" TYPE="foreign" FIELDS="flashcardid" REFTABLE="fsrs_flashcard" REFFIELDS="id"/>
+                <KEY NAME="usercardid_fk" TYPE="foreign" FIELDS="usercardid" REFTABLE="fsrs_user_card" REFFIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="userid" UNIQUE="false" FIELDS="userid"/>
+                <INDEX NAME="flashcardid" UNIQUE="false" FIELDS="flashcardid"/>
+                <INDEX NAME="reviewed_at" UNIQUE="false" FIELDS="reviewed_at"/>
+            </INDEXES>
+        </TABLE>
+    </TABLES>
+</XMLDB>

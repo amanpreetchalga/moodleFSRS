@@ -1,0 +1,40 @@
+<div class="fsrs-manage">
+    <div class="fsrs-manage-header">
+        <h2>{{#str}}managedeck, mod_fsrs{{/str}}</h2>
+        <a class="btn btn-primary" href="{{addtopicurl}}">{{#str}}addtopic, mod_fsrs{{/str}}</a>
+    </div>
+
+    {{#topics}}
+    <section class="fsrs-topic">
+        <div class="fsrs-topic-header">
+            <h3>{{name}}</h3>
+            <div class="fsrs-topic-actions">
+                <a class="btn btn-secondary" href="{{edittopicurl}}">{{#str}}edittopic, mod_fsrs{{/str}}</a>
+                <a class="btn btn-secondary" href="{{deletetopicurl}}">{{#str}}deletetopic, mod_fsrs{{/str}}</a>
+                <a class="btn btn-secondary" href="{{addflashcardurl}}">{{#str}}addflashcard, mod_fsrs{{/str}}</a>
+                <a class="btn btn-secondary" href="{{manageflashcardsurl}}">{{#str}}manageflashcards, mod_fsrs{{/str}}</a>
+            </div>
+        </div>
+        <div class="fsrs-topic-description">{{{description}}}</div>
+        <div class="fsrs-flashcards">
+            {{#flashcards}}
+            <div class="fsrs-flashcard">
+                <div class="fsrs-flashcard-front">{{{front}}}</div>
+                <div class="fsrs-flashcard-back">{{{back}}}</div>
+                <div class="fsrs-flashcard-actions">
+                    <a class="btn btn-secondary" href="{{editflashcardurl}}">{{#str}}editflashcard, mod_fsrs{{/str}}</a>
+                    <a class="btn btn-secondary" href="{{deleteflashcardurl}}">{{#str}}deleteflashcard, mod_fsrs{{/str}}</a>
+                </div>
+            </div>
+            {{/flashcards}}
+            {{^flashcards}}
+            <div class="fsrs-empty">{{#str}}noflashcards, mod_fsrs{{/str}}</div>
+            {{/flashcards}}
+        </div>
+    </section>
+    {{/topics}}
+
+    {{^topics}}
+    <div class="fsrs-empty">{{#str}}notopicsmanage, mod_fsrs{{/str}}</div>
+    {{/topics}}
+</div>
